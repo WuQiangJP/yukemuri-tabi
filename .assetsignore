@@ -1,0 +1,28 @@
+# ===== Cloudflare 設定（アップロード不要）=====
+wrangler.jsonc
+.assetsignore
+_redirects
+
+# ===== リポジトリ管理ファイル =====
+.gitignore
+README.md
+LICENSE
+.github/
+
+# ===== 将来追加されうる機密ファイル =====
+.env
+.env.*
+.dev.vars
+*.key
+*.pem
+*.p12
+
+# ===== OS / エディタ =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== 依存・ビルド成果物 =====
+node_modules/
+dist/
