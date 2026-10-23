@@ -1,6 +1,6 @@
-User-agent: *
-Disallow: /
+# User-agent: *
+# Disallow: /
 
 # 正式公開時に上の Disallow を削除し、下を有効化する
-# User-agent: *
-# Allow: /
+User-agent: *
+Allow: /
