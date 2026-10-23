@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>湯けむり旅｜全国の温泉地と、ご当地旅</title>
+<meta name="description" content="編集部が実際に訪れた全国の温泉地と、その土地ならではの楽しみ方をご紹介。次の1泊2日は、ここで決めましょう。">
+<meta name="theme-color" content="#2E4A45">
+
+<!-- CSP 等のセキュリティヘッダは _headers で設定（meta では frame-ancestors が効かないため） -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232E4A45'/%3E%3Cpath d='M9 20h14a7 7 0 0 1-14 0z' fill='none' stroke='%23F7F4EE' stroke-width='2'/%3E%3C/svg%3E">
+
+<style>
+/* =========================================================
+   1. 設計トークン
+   ========================================================= */
+:root{
+  --kinari:#F7F4EE;
+  --sumi:#1F2421;
+  --midori:#2E4A45;
+  --akane:#C8553D;
+  --paper:#EFEBE3;
+  --line:rgba(31,36,33,.10);
+
+  --font-sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN",
+              "Yu Gothic","YuGothic",Meiryo,"Noto Sans CJK JP",sans-serif;
+  --font-serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif CJK JP",serif;
+
+  --wrap:1120px;
+}
+
+/* =========================================================
+   2. リセット
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--kinari);color:var(--sumi);
+  font-family:var(--font-sans);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+h1,h2,h3,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+img,svg{display:block}
+
+section[id],#q{scroll-margin-top:88px}
+
+:focus-visible{outline:2px solid var(--akane);outline-offset:3px}
+
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
+
+/* =========================================================
+   3. レイアウト共通
+   ========================================================= */
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:20px}
+@media(min-width:768px){.wrap{padding-inline:32px}}
+
+.sec{padding-block:64px}
+@media(min-width:768px){.sec{padding-block:96px}}
+
+main{padding-bottom:80px}
+@media(min-width:768px){main{padding-bottom:0}}
+
+.eyebrow{font-size:10px;letter-spacing:.24em;color:var(--akane)}
+@media(min-width:768px){.eyebrow{font-size:11px}}
+
+.h2{
+  margin-top:12px;font-family:var(--font-serif);font-weight:600;
+  font-size:22px;letter-spacing:.06em;line-height:1.34;
+}
+@media(min-width:768px){.h2{font-size:32px}}
+
+.lead{
+  margin-top:12px;font-size:13px;letter-spacing:.02em;line-height:1.9;
+  color:rgba(31,36,33,.65);
+}
+
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.sec-head__link{display:none}
+@media(min-width:640px){
+  .sec-head__link{
+    display:inline-flex;align-items:center;gap:6px;flex-shrink:0;
+    padding-bottom:4px;font-size:12px;letter-spacing:.06em;
+    color:rgba(31,36,33,.70);
+    border-bottom:1px solid rgba(31,36,33,.25);
+    transition:color .2s,border-color .2s;
+  }
+  .sec-head__link:hover{color:var(--akane);border-color:var(--akane)}
+}
+
+/* =========================================================
+   4. ヘッダー
+   ========================================================= */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  color:#fff;transition:background-color .3s,color .3s;
+}
+.site-header.is-scrolled{
+  color:var(--sumi);
+  background:rgba(247,244,238,.95);
+  -webkit-backdrop-filter:saturate(180%) blur(10px);
+  backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid rgba(31,36,33,.08);
+}
+
+.site-header__bar{
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+@media(min-width:768px){.site-header__bar{height:80px}}
+
+.logo{display:flex;flex-direction:column;line-height:1}
+.logo__ja{font-family:var(--font-serif);font-size:19px;letter-spacing:.14em}
+@media(min-width:768px){.logo__ja{font-size:22px}}
+.logo__en{margin-top:4px;font-size:9px;letter-spacing:.34em;opacity:.7}
+@media(min-width:768px){.logo__en{font-size:10px}}
+
+.nav{display:none}
+@media(min-width:1024px){
+  .nav{display:flex;align-items:center;gap:32px;font-size:13px;letter-spacing:.08em}
+  .nav a{transition:color .2s}
+  .site-header.is-scrolled .nav a:hover{color:var(--akane)}
+}
+.nav__disabled{opacity:.4;cursor:default}
+
+.menu-btn{display:block;margin-right:-8px;padding:8px;background:none;border:0;cursor:pointer}
+@media(min-width:1024px){.menu-btn{display:none}}
+
+.mobile-menu{
+  display:none;background:var(--kinari);color:var(--sumi);
+  border-bottom:1px solid var(--line);
+}
+.mobile-menu.is-open{display:block}
+.mobile-menu nav{display:flex;flex-direction:column;padding:16px 24px;font-size:14px}
+.mobile-menu nav > *{padding:14px 0}
+.mobile-menu nav > * + *{border-top:1px solid var(--line)}
+.mobile-menu .is-disabled{opacity:.4}
+
+/* =========================================================
+   5. ヒーロー
+   ========================================================= */
+.hero{position:relative;display:flex;align-items:center;overflow:hidden;min-height:600px}
+@media(min-width:768px){.hero{min-height:85svh}}
+
+.hero__art{position:absolute;inset:0;width:100%;height:100%}
+
+.hero__scrim-t,
+.hero__scrim-r{position:absolute;inset:0;pointer-events:none}
+.hero__scrim-t{background:linear-gradient(to top,rgba(31,36,33,.75),rgba(31,36,33,.20) 55%,rgba(31,36,33,.10))}
+.hero__scrim-r{background:linear-gradient(to right,rgba(31,36,33,.80),rgba(31,36,33,.25) 55%,transparent)}
+
+.hero__inner{position:relative;width:100%;padding-block:112px 64px}
+@media(min-width:768px){.hero__inner{padding-block:96px 80px}}
+
+.hero__copy{max-width:620px;color:#fff}
+
+.hero__eyebrow{font-size:11px;letter-spacing:.26em;color:rgba(255,255,255,.80)}
+@media(min-width:768px){.hero__eyebrow{font-size:12px}}
+
+.hero__title{
+  margin-top:20px;font-family:var(--font-serif);font-weight:500;
+  font-size:clamp(1.75rem,5.4vw,3.25rem);letter-spacing:.06em;line-height:1.34;
+}
+
+.hero__lead{
+  margin-top:24px;max-width:34em;
+  font-size:13px;letter-spacing:.02em;line-height:1.9;
+  color:rgba(255,255,255,.85);
+}
+@media(min-width:768px){.hero__lead{font-size:15px}}
+
+.br-md{display:none}
+@media(min-width:768px){.br-md{display:inline}}
+
+.search{margin-top:32px;max-width:600px}
+@media(min-width:768px){.search{margin-top:40px}}
+
+.search__row{display:flex;flex-direction:column;gap:10px}
+@media(min-width:640px){.search__row{flex-direction:row}}
+
+.search__input{
+  width:100%;flex:1;min-width:0;
+  padding:14px 16px;border-radius:4px;
+  border:1px solid rgba(255,255,255,.60);
+  background:rgba(255,255,255,.95);
+  font-size:13px;color:var(--sumi);
+  appearance:none;
+}
+@media(min-width:768px){.search__input{font-size:14px}}
+.search__input::placeholder{color:rgba(31,36,33,.45)}
+.search__input:focus{outline:none;background:#fff;border-color:#fff}
+
+.search__btn{
+  flex-shrink:0;border:0;border-radius:4px;
+  padding:14px 24px;background:var(--akane);color:#fff;
+  font-size:13px;font-weight:500;letter-spacing:.08em;
+  cursor:pointer;transition:filter .2s;
+}
+@media(min-width:768px){.search__btn{font-size:14px}}
+.search__btn:hover{filter:brightness(1.10)}
+.search__btn:active{filter:brightness(.95)}
+
+.search__btn-short{display:inline}
+.search__btn-long{display:none}
+@media(min-width:640px){
+  .search__btn-short{display:none}
+  .search__btn-long{display:inline}
+}
+
+.hero__sub{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:20px;padding-bottom:4px;
+  font-size:13px;color:rgba(255,255,255,.90);
+  border-bottom:1px solid rgba(255,255,255,.35);
+  transition:color .2s,border-color .2s;
+}
+.hero__sub:hover{color:#fff;border-color:#fff}
+
+/* =========================================================
+   6. 信頼バー
+   ========================================================= */
+.trust{background:var(--kinari);border-bottom:1px solid var(--line)}
+.trust ul{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;
+  gap:8px 20px;padding-block:16px;
+  font-size:10px;letter-spacing:.16em;color:rgba(31,36,33,.65);
+}
+@media(min-width:768px){.trust ul{font-size:11px}}
+.trust .sep{color:rgba(31,36,33,.25)}
+
+/* =========================================================
+   7. 目的から探す
+   ========================================================= */
+.purpose-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:10px;margin-top:32px;
+}
+@media(min-width:640px){.purpose-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:768px){.purpose-grid{gap:12px;margin-top:40px}}
+
+.purpose-card{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  padding:24px 12px;border-radius:4px;
+  border:1px solid var(--line);background:rgba(255,255,255,.60);
+  transition:border-color .2s,background-color .2s;
+}
+.purpose-card:hover{border-color:rgba(200,85,61,.40);background:#fff}
+.purpose-card svg{color:var(--midori);transition:color .2s}
+.purpose-card:hover svg{color:var(--akane)}
+.purpose-card span{font-size:12px;letter-spacing:.06em;text-align:center}
+
+/* =========================================================
+   8. 今月の特集
+   ========================================================= */
+.feature{background:var(--paper)}
+
+.feature-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:32px}
+@media(min-width:768px){
+  .feature-grid{
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(2,1fr);
+    gap:16px;margin-top:40px;
+  }
+}
+
+.feature-card{
+  position:relative;display:block;overflow:hidden;
+  border-radius:6px;aspect-ratio:16/9;
+}
+.feature-card--lg{aspect-ratio:4/3}
+
+@media(min-width:768px){
+  .feature-card{aspect-ratio:auto;min-height:182px}
+  .feature-card--lg{
+    grid-column:span 2;grid-row:span 2;
+    aspect-ratio:auto;min-height:380px;
+  }
+}
+
+.feature-card svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  transition:transform .7s;
+}
+.feature-card:hover svg{transform:scale(1.04)}
+
+.feature-card__veil{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(31,36,33,.85),rgba(31,36,33,.20) 55%,transparent);
+}
+
+.feature-card__body{position:absolute;inset:auto 0 0;padding:16px;color:#fff}
+@media(min-width:768px){.feature-card__body{padding:20px}}
+.feature-card--lg .feature-card__body{padding:20px}
+@media(min-width:768px){.feature-card--lg .feature-card__body{padding:28px}}
+
+.feature-card__kicker{font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.75)}
+
+.feature-card__title{
+  margin-top:8px;font-family:var(--font-serif);
+  font-size:15px;letter-spacing:.06em;line-height:1.34;
+}
+@media(min-width:768px){.feature-card__title{font-size:17px}}
+.feature-card--lg .feature-card__title{font-size:18px}
+@media(min-width:768px){.feature-card--lg .feature-card__title{font-size:24px}}
+
+/* =========================================================
+   9. モバイル固定CTA
+   ========================================================= */
+.mobile-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(247,244,238,.95);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+}
+@media(min-width:768px){.mobile-cta{display:none}}
+
+.mobile-cta a{
+  display:block;padding-block:14px;border-radius:4px;
+  background:var(--akane);color:#fff;
+  text-align:center;font-size:14px;font-weight:500;letter-spacing:.08em;
+}
+
+/* =========================================================
+   10. アニメーション
+   ========================================================= */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:none}
+}
+.fade-up{animation:fadeUp .9s cubic-bezier(.2,.7,.2,1) both}
+.delay-1{animation-delay:.10s}
+.delay-2{animation-delay:.22s}
+.delay-3{animation-delay:.34s}
+
+@media(prefers-reduced-motion:reduce){
+  .fade-up{animation:none}
+  html{scroll-behavior:auto}
+  .feature-card svg{transition:none}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     SVG イラスト一式（スプライト）
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+
+  <filter id="soft"  x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="26"/></filter>
+  <filter id="soft2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="58"/></filter>
+
+  <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#1E2C33"/>
+    <stop offset=".40" stop-color="#465C56"/>
+    <stop offset=".70" stop-color="#8A8B79"/>
+    <stop offset="1"   stop-color="#C6B69C"/>
+  </linearGradient>
+  <radialGradient id="hSun" cx=".5" cy=".5" r=".5">
+    <stop offset="0"   stop-color="#F6E7C8" stop-opacity=".92"/>
+    <stop offset=".50" stop-color="#EFDCB6" stop-opacity=".26"/>
+    <stop offset="1"   stop-color="#EFDCB6" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="hFar"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7E8C86"/><stop offset="1" stop-color="#5A6C66"/></linearGradient>
+  <linearGradient id="hMid"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#41564F"/><stop offset="1" stop-color="#2C3B36"/></linearGradient>
+  <linearGradient id="hNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F2B27"/><stop offset="1" stop-color="#101815"/></linearGradient>
+  <linearGradient id="hWater" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0"   stop-color="#AFC3B6"/>
+    <stop offset=".26" stop-color="#6D8B7E"/>
+    <stop offset="1"   stop-color="#22332D"/>
+  </linearGradient>
+  <linearGradient id="hRock" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A4741"/><stop offset="1" stop-color="#141C19"/></linearGradient>
+
+  <path id="cedar" d="M0 0 L13 32 L6 32 L19 60 L10 60 L25 92 L2 92 L2 126 L-2 126 L-2 92 L-25 92 L-10 60 L-19 60 L-6 32 L-13 32 Z"/>
+
+  <g id="art-hero">
+    <rect width="1600" height="1000" fill="url(#hSky)"/>
+    <ellipse cx="1210" cy="420" rx="540" ry="400" fill="url(#hSun)"/>
+
+    <path d="M0 566 L150 512 L300 552 L430 486 L560 538 L700 470 L840 530 L980 462 L1120 522 L1260 466 L1400 524 L1600 480 L1600 1000 L0 1000 Z"
+          fill="url(#hFar)" opacity=".55"/>
+    <path d="M0 664 L120 620 L262 662 L400 596 L542 652 L700 590 L862 650 L1012 596 L1162 648 L1322 600 L1462 646 L1600 606 L1600 1000 L0 1000 Z"
+          fill="url(#hMid)" opacity=".9"/>
+
+    <g filter="url(#soft)" opacity=".55">
+      <ellipse cx="1190" cy="706" rx="210" ry="72" fill="#DEE7DD" opacity=".5"/>
+      <ellipse cx="1340" cy="748" rx="176" ry="58" fill="#DEE7DD" opacity=".38"/>
+      <ellipse cx="980"  cy="732" rx="156" ry="52" fill="#DEE7DD" opacity=".3"/>
+    </g>
+
+    <g fill="url(#hNear)">
+      <use href="#cedar" transform="translate(1200,690) scale(1.05)"/>
+      <use href="#cedar" transform="translate(1252,672) scale(1.2)"/>
+      <use href="#cedar" transform="translate(1310,700) scale(.95)"/>
+      <use href="#cedar" transform="translate(1362,676) scale(1.15)"/>
+      <use href="#cedar" transform="translate(1424,704) scale(.9)"/>
+      <use href="#cedar" transform="translate(1480,684) scale(1.08)"/>
+      <use href="#cedar" transform="translate(1540,706) scale(.92)"/>
+      <use href="#cedar" transform="translate(660,716) scale(.8)"/>
+      <use href="#cedar" transform="translate(712,736) scale(.7)"/>
+    </g>
+
+    <ellipse cx="1120" cy="884" rx="650" ry="236" fill="url(#hRock)"/>
+    <ellipse cx="1120" cy="876" rx="566" ry="194" fill="url(#hWater)"/>
+
+    <g filter="url(#soft)" opacity=".55">
+      <ellipse cx="980"  cy="820" rx="210" ry="26" fill="#F4EBD6"/>
+      <ellipse cx="1258" cy="862" rx="158" ry="18" fill="#F4EBD6" opacity=".75"/>
+      <ellipse cx="1080" cy="914" rx="250" ry="20" fill="#F4EBD6" opacity=".45"/>
+    </g>
+
+    <g fill="none" stroke="#EAF0E6" stroke-width="1.6" opacity=".16">
+      <ellipse cx="1120" cy="882" rx="300" ry="100"/>
+      <ellipse cx="1120" cy="882" rx="424" ry="144"/>
+    </g>
+
+    <path d="M420 1000 C470 930 560 906 640 936 C700 958 742 992 760 1000 Z" fill="url(#hRock)"/>
+    <path d="M1560 1000 C1500 940 1430 918 1360 946 C1320 962 1296 986 1288 1000 Z" fill="url(#hRock)"/>
+
+    <g transform="translate(1478,742)" fill="#131B18">
+      <rect x="-9" y="46" width="18" height="130" rx="3"/>
+      <rect x="-32" y="24" width="64" height="24" rx="4"/>
+      <rect x="-36" y="-2" width="72" height="10" rx="3"/>
+      <path d="M-27 24 L0 -16 L27 24 Z"/>
+    </g>
+
+    <g transform="translate(790,930)">
+      <ellipse cx="0" cy="0" rx="42" ry="14" fill="#5C4634"/>
+      <path d="M-42 0 v22 a42 14 0 0 0 84 0 V0" fill="#6E5440"/>
+      <ellipse cx="0" cy="22" rx="42" ry="14" fill="#7D6048"/>
+    </g>
+
+    <g filter="url(#soft2)" opacity=".5">
+      <ellipse cx="940"  cy="700" rx="160" ry="190" fill="#E9F0E7" opacity=".42"/>
+      <ellipse cx="1120" cy="640" rx="180" ry="220" fill="#E9F0E7" opacity=".34"/>
+      <ellipse cx="1320" cy="700" rx="150" ry="180" fill="#E9F0E7" opacity=".30"/>
+      <ellipse cx="1050" cy="520" rx="140" ry="150" fill="#E9F0E7" opacity=".18"/>
+    </g>
+  </g>
+
+  <linearGradient id="mSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#F4E5CE"/><stop offset=".55" stop-color="#DCAF8C"/><stop offset="1" stop-color="#9C6154"/>
+  </linearGradient>
+  <linearGradient id="ySky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E6EEF2"/><stop offset=".6" stop-color="#B7CAD3"/><stop offset="1" stop-color="#7B94A2"/>
+  </linearGradient>
+  <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#F8EFDE"/><stop offset="1" stop-color="#E1C6A0"/>
+  </linearGradient>
+
+  <path id="leaf" d="M0 -15 C6 -11 9 -5 7 1 C13 -1 19 4 16 11 C12 19 4 17 0 12 C-4 17 -12 19 -16 11 C-19 4 -13 -1 -7 1 C-9 -5 -6 -11 0 -15 Z"/>
+
+  <g id="art-momiji">
+    <rect width="800" height="533" fill="url(#mSky)"/>
+    <path d="M0 336 L120 296 L242 326 L362 278 L482 318 L602 272 L722 314 L800 290 L800 533 L0 533 Z" fill="#7C5348" opacity=".5"/>
+    <path d="M0 398 L142 358 L302 396 L462 346 L622 392 L800 352 L800 533 L0 533 Z" fill="#482C29" opacity=".82"/>
+    <g opacity=".92">
+      <use href="#leaf" fill="#C8553D" transform="translate(126,104) rotate(-16) scale(1.7)"/>
+      <use href="#leaf" fill="#D97B3C" transform="translate(196,168) rotate(22) scale(1.15)"/>
+      <use href="#leaf" fill="#A83A2E" transform="translate(72,196) rotate(38) scale(1.25)"/>
+      <use href="#leaf" fill="#E0904A" transform="translate(232,74) rotate(-34) scale(.95)"/>
+      <use href="#leaf" fill="#B94A33" transform="translate(160,258) rotate(8) scale(.8)"/>
+    </g>
+    <g filter="url(#soft)" opacity=".5">
+      <ellipse cx="420" cy="470" rx="280" ry="64" fill="#F7EFDD"/>
+    </g>
+  </g>
+
+  <g id="art-yuki">
+    <rect width="800" height="533" fill="url(#ySky)"/>
+    <path d="M0 372 L164 306 L306 356 L438 268 L566 344 L706 300 L800 344 L800 533 L0 533 Z" fill="#42596B"/>
+    <path d="M438 268 L474 292 L502 282 L524 306 L566 344 L438 356 L392 334 L406 300 Z" fill="#EDF3F6" opacity=".92"/>
+    <path d="M164 306 L186 320 L204 314 L214 330 L240 350 L164 360 L134 342 Z" fill="#EDF3F6" opacity=".7"/>
+    <g filter="url(#soft)" opacity=".55">
+      <ellipse cx="400" cy="430" rx="230" ry="62" fill="#FFFFFF"/>
+      <ellipse cx="560" cy="466" rx="170" ry="44" fill="#FFFFFF" opacity=".7"/>
+    </g>
+    <g fill="#FFFFFF" opacity=".7">
+      <circle cx="96" cy="86" r="3"/><circle cx="210" cy="140" r="2.4"/><circle cx="318" cy="70" r="2.8"/>
+      <circle cx="470" cy="128" r="2.2"/><circle cx="600" cy="66" r="3.2"/><circle cx="706" cy="150" r="2.4"/>
+      <circle cx="150" cy="228" r="2"/><circle cx="540" cy="212" r="2.6"/><circle cx="662" cy="248" r="2"/>
+    </g>
+  </g>
+
+  <g id="art-gohan">
+    <rect width="800" height="533" fill="url(#gSky)"/>
+    <ellipse cx="400" cy="486" rx="330" ry="62" fill="#D8BC96" opacity=".55"/>
+    <path d="M228 380 h150 v6 c0 38 -34 69 -75 69 s-75 -31 -75 -69 z" fill="#3E4A45"/>
+    <ellipse cx="303" cy="380" rx="75" ry="15" fill="#57655F"/>
+    <rect x="272" y="452" width="62" height="10" rx="4" fill="#2C3733"/>
+    <g filter="url(#soft)" opacity=".55">
+      <ellipse cx="300" cy="330" rx="42" ry="36" fill="#FFF8EA"/>
+      <ellipse cx="332" cy="276" rx="28" ry="26" fill="#FFF8EA" opacity=".7"/>
+    </g>
+    <rect x="522" y="300" width="80" height="146" rx="34" fill="#6E4B38"/>
+    <rect x="548" y="266" width="28" height="42" rx="11" fill="#6E4B38"/>
+    <rect x="538" y="322" width="11" height="94" rx="5" fill="#8C6349" opacity=".65"/>
+    <path d="M424 398 h74 l-11 36 h-52 z" fill="#8A5B42"/>
+    <ellipse cx="461" cy="398" rx="37" ry="8" fill="#A3714F"/>
+  </g>
+
+</defs>
+</svg>
+
+<!-- ============ ナビゲーション ============ -->
+<header id="site-header" class="site-header">
+  <div class="wrap">
+    <div class="site-header__bar">
+
+      <a href="./" class="logo" aria-label="湯けむり旅 トップページ">
+        <span class="logo__ja">湯けむり旅</span>
+        <span class="logo__en">YUKEMURI TABI</span>
+      </a>
+
+      <nav class="nav" aria-label="メインナビゲーション">
+        <a href="#q">温泉地から探す</a>
+        <a href="#purpose">目的から探す</a>
+        <a href="#feature">今月の特集</a>
+        <span class="nav__disabled" aria-disabled="true">モデルコース</span>
+        <span class="nav__disabled" aria-disabled="true">旅の記事</span>
+      </nav>
+
+      <button id="menu-btn" type="button" class="menu-btn"
+              aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M3 7h18M3 12h18M3 17h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu">
+    <nav aria-label="モバイルナビゲーション">
+      <a href="#q">温泉地から探す</a>
+      <a href="#purpose">目的から探す</a>
+      <a href="#feature">今月の特集</a>
+      <span class="is-disabled" aria-disabled="true">モデルコース（準備中）</span>
+      <span class="is-disabled" aria-disabled="true">旅の記事（準備中）</span>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <svg class="hero__art" viewBox="0 0 1600 1000"
+         preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <use href="#art-hero"/>
+    </svg>
+
+    <div class="hero__scrim-t" aria-hidden="true"></div>
+    <div class="hero__scrim-r" aria-hidden="true"></div>
+
+    <div class="wrap hero__inner">
+      <div class="hero__copy">
+
+        <p class="hero__eyebrow fade-up">全国の温泉地と、ご当地旅。</p>
+
+        <h1 class="hero__title fade-up delay-1">
+          休みの日は、<br>湯けむりを目指して。
+        </h1>
+
+        <p class="hero__lead fade-up delay-2">
+          編集部が実際に訪れた全国の温泉地と、その土地ならではの楽しみ方。<br class="br-md">
+          次の1泊2日は、ここで決めましょう。
+        </p>
+
+        <form id="search-form" class="search fade-up delay-3" action="./" method="get" role="search">
+          <label for="q" class="sr-only">温泉地・エリア名から探す</label>
+          <div class="search__row">
+            <input id="q" name="q" type="search"
+                   placeholder="温泉地・エリア名から探す（例：草津、箱根、由布院）"
+                   class="search__input" autocomplete="off">
+            <button type="submit" class="search__btn">
+              <span class="search__btn-long">温泉地を探す</span>
+              <span class="search__btn-short">探す</span>
+            </button>
+          </div>
+        </form>
+
+        <a href="#purpose" class="hero__sub fade-up delay-3">
+          目的から探す
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M5 12h13M13 6l6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap">
+      <ul>
+        <li>全国320の温泉地を掲載</li>
+        <li class="sep" aria-hidden="true">｜</li>
+        <li>編集部が現地取材済み</li>
+        <li class="sep" aria-hidden="true">｜</li>
+        <li>泉質・アクセス・料金目安まで掲載</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="purpose" class="sec">
+    <div class="wrap">
+
+      <p class="eyebrow">FIND BY PURPOSE</p>
+      <h2 class="h2">目的から探す</h2>
+      <p class="lead">「なんとなく温泉」から、「これがしたい」へ。</p>
+
+      <ul class="purpose-grid">
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 18h18M6 18l4-7 3 5 2-3 3 5"/><circle cx="17.5" cy="6" r="2"/>
+          </svg>
+          <span>絶景露天風呂</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>
+          </svg>
+          <span>日帰り入浴</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="8.5" cy="8" r="2.6"/><circle cx="15.5" cy="8" r="2.6"/>
+            <path d="M3.5 19c0-2.8 2.2-4.6 5-4.6s5 1.8 5 4.6M14 14.6c2.6 0 6.5 1.6 6.5 4.4"/>
+          </svg>
+          <span>カップル</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="6.4" r="2.2"/><circle cx="5.6" cy="9.4" r="1.8"/><circle cx="18.4" cy="9.4" r="1.8"/>
+            <path d="M8.4 20c0-3.2 1.6-5.6 3.6-5.6s3.6 2.4 3.6 5.6M2.6 20c0-2.3 1.3-4.1 3.3-4.1M21.4 20c0-2.3-1.3-4.1-3.3-4.1"/>
+          </svg>
+          <span>家族・三世代旅行</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="10" cy="6.5" r="2.3"/><path d="M6.6 20v-5.4l1.6 2.2M13.4 20v-5.4l-1.6 2.2M7.4 14.6h5.2"/>
+            <rect x="16.6" y="13" width="4.4" height="7" rx="1.2"/><path d="M18.8 13v-1.6"/>
+          </svg>
+          <span>一人旅</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2.5 20l6.5-9.5L13 16l3-4 5.5 8z"/><path d="M15 4v5"/><path d="M15 4l4 1.6-4 1.6"/>
+          </svg>
+          <span>秘湯</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8.2" r="2"/>
+            <path d="M8.6 12.2c0-1.7 1.5-2.6 3.4-2.6s3.4.9 3.4 2.6"/>
+            <path d="M3.2 12.2h17.6v3a3.2 3.2 0 0 1-3.2 3.2H6.4a3.2 3.2 0 0 1-3.2-3.2z"/>
+            <path d="M8 6.6c0-.9.8-1.1.8-2M16 6.6c0-.9.8-1.1.8-2"/>
+          </svg>
+          <span>湯治</span>
+        </a></li>
+
+        <li><a href="#" class="purpose-card">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3.6 11.8h16.8a8.4 8.4 0 0 1-16.8 0z"/>
+            <path d="M7.4 8.8 13.8 3.6"/>
+            <path d="M10 9.6 16.4 4.4"/>
+            <path d="M4.4 20h15.2"/>
+          </svg>
+          <span>ご当地グルメ</span>
+        </a></li>
+
+      </ul>
+    </div>
+  </section>
+
+  <section id="feature" class="sec feature">
+    <div class="wrap">
+
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">SEASONAL</p>
+          <h2 class="h2">今月の特集</h2>
+        </div>
+        <a href="#" class="sec-head__link">
+          特集一覧
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M5 12h13M13 6l6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="feature-grid">
+
+        <a href="#" class="feature-card feature-card--lg">
+          <svg viewBox="0 0 800 533" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <use href="#art-momiji"/>
+          </svg>
+          <div class="feature-card__veil"></div>
+          <div class="feature-card__body">
+            <p class="feature-card__kicker">秋の特集</p>
+            <p class="feature-card__title">紅葉が終わる前に。<br class="br-md">露天風呂から見る、秋の山。</p>
+          </div>
+        </a>
+
+        <a href="#" class="feature-card">
+          <svg viewBox="0 0 800 533" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <use href="#art-yuki"/>
+          </svg>
+          <div class="feature-card__veil"></div>
+          <div class="feature-card__body">
+            <p class="feature-card__title">雪見風呂という贅沢。</p>
+          </div>
+        </a>
+
+        <a href="#" class="feature-card">
+          <svg viewBox="0 0 800 533" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <use href="#art-gohan"/>
+          </svg>
+          <div class="feature-card__veil"></div>
+          <div class="feature-card__body">
+            <p class="feature-card__title">温泉のあとは、その土地の一皿を。</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="mobile-cta">
+  <a href="#q">温泉地を探す</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var header = document.getElementById('site-header');
+  var onScroll = function () {
+    header.classList.toggle('is-scrolled', window.scrollY > 40);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  var btn  = document.getElementById('menu-btn');
+  var menu = document.getElementById('mobile-menu');
+
+  btn.addEventListener('click', function () {
+    var open = menu.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  });
+
+  Array.prototype.forEach.call(menu.querySelectorAll('a'), function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  var search = document.getElementById('q');
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#q"]'), function (a) {
+    a.addEventListener('click', function () {
+      window.setTimeout(function () {
+        if (search) search.focus({ preventScroll: true });
+      }, 400);
+    });
+  });
+
+  /* 検索フォーム：バックエンド未実装のため送信を止める */
+  var form = document.getElementById('search-form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('purpose').scrollIntoView({ behavior: 'smooth' });
+  });
+
+})();
+</script>
+
+</body>
+</html>
